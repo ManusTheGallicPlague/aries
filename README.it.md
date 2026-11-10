@@ -2,6 +2,12 @@
 
 **🇮🇹 Italiano** · [🇬🇧 English](README.md)
 
+![bench](https://github.com/ManusTheGallicPlague/aries/actions/workflows/bench.yml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-blue)
+![python](https://img.shields.io/badge/python-3.9%2B-blue)
+![core](https://img.shields.io/badge/core-pure%20stdlib%2C%20zero%20deps-success)
+![offline](https://img.shields.io/badge/runs-offline%2C%20no%20LLM-success)
+
 Security testing **locale, deterministico e onesto** — attaccante e difensore sulla propria infrastruttura.
 
 > **Principio — ground truth:** i fatti li produce il **codice**, con la prova accanto. L'LLM, quando c'è, al massimo *interpreta* — non decide mai se un controllo passa. ARIES funziona interamente **senza modelli**.

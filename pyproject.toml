@@ -42,5 +42,5 @@ py-modules = [
     "lane_massassign", "lane_nosqli", "lane_nuclei", "lane_openapi", "lane_race",
     "lane_redirect", "lane_secrets", "lane_semgrep", "lane_ssrf", "lane_ssti",
     "lane_storedxss", "lane_traversal", "lane_tls", "lane_graphql", "lane_trivy",
-    "lane_xss",
+    "lane_xss", "lane_crlf", "lane_xxe",
 ]
