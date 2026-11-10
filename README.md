@@ -8,6 +8,10 @@
 ![core](https://img.shields.io/badge/core-pure%20stdlib%2C%20zero%20deps-success)
 ![offline](https://img.shields.io/badge/runs-offline%2C%20no%20LLM-success)
 
+<p align="center">
+  <img src="docs/demo.gif" alt="ARIES in action: three lanes flag a real vulnerability on the local fixture, each with a copy-paste curl PoC" width="880">
+</p>
+
 Security testing that is **local, deterministic and honest** — attacker and defender on your own infrastructure.
 
 > **Principle — ground truth:** the facts are produced by the **code**, with the evidence right next to them. The LLM, when present, at most *interprets* — it never decides whether a check passes. ARIES works entirely **without models**.
