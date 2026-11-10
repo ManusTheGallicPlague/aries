@@ -1,0 +1,64 @@
+# Cancello CI di ARIES — gira sul repo-STRUMENTO stesso (non è l'esempio di
+# gate per un'app sotto test: quello sta in `ci/github-action-aries-gate.yml`).
+#
+# A ogni push e pull_request esegue il benchmark a due facce + i self-check
+# (`aries bench`), che ora esce con codice ≠ 0 se qualcosa regredisce → GitHub
+# fa fallire il job. Così i commit di questo repo passano da un cancello
+# INDIPENDENTE dal bench eseguito a mano nella sessione che li ha prodotti.
+#
+# Confine: il bench gira interamente sul fixture locale (`bench_vuln.py`, solo
+# 127.0.0.1) → nessun host esterno, nessun tool oltre a Python.
+#
+# `dom-xss` è ESENTE dal cancello (richiede Playwright, qui non installato):
+# `core.bench_green` la esclude dal punteggio → la sua assenza non fa fallire.
+# Le lane che orchestrano strumenti esterni (semgrep/trivy/nuclei/ffuf) NON
+# entrano nel bench → nessuna dipendenza esterna necessaria.
+
+name: aries-bench
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  bench:
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Il floor di requires-python (3.9) + versioni correnti. Tutte validate
+        # a mano nella sessione che ha introdotto il cancello (uv per il 3.9).
+        # NB runner: `ubuntu-latest` è ormai Ubuntu 26.04, per cui
+        # actions/setup-python NON ha un build di Python 3.9 → il 3.9 gira su
+        # `ubuntu-22.04` (che lo fornisce), le versioni correnti su `ubuntu-latest`.
+        include:
+          - python-version: "3.9"
+            runs-on: ubuntu-22.04
+          - python-version: "3.11"
+            runs-on: ubuntu-latest
+          - python-version: "3.12"
+            runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Il cancello vero: il bench deve essere VERDE. Exit ≠ 0 → job fallito.
+      # Nessun `pip install` di dipendenze: il nucleo è puro stdlib.
+      - name: ARIES bench (benchmark a due facce + self-check)
+        run: python3 aries.py bench
+
+      # Valida anche l'impacchettamento (pyproject.toml): l'install editabile
+      # deve produrre il comando `aries`, e `aries bench` deve restare verde
+      # (i dati wordlists/bench_specs si risolvono via __file__ nel repo).
+      - name: Install editabile + comando `aries`
+        run: |
+          python3 -m pip install -e .
+          aries bench

@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture SSTI SICURO", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/ssti-safe": {
+      "get": {
+        "summary": "saluto che riflette l'input COME DATO, mai interpretato come template",
+        "parameters": [
+          {"name": "q", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture AUTH SICURO", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/auth-ratelimited": {
+      "post": {
+        "summary": "login CON throttling: 429 dopo pochi tentativi falliti",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

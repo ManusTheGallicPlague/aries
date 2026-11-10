@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture SSRF VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/ssrf-vuln": {
+      "get": {
+        "summary": "fetcher che segue il parametro `url` verso qualunque destinazione",
+        "parameters": [
+          {"name": "url", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

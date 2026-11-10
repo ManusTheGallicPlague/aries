@@ -1,0 +1,18 @@
+# memoria dei findings: risultati reali dei bersagli → MAI nel repo
+aries.db
+
+# override locale: i TUOI host/infrastruttura (config.py lo importa) → MAI nel repo
+config_local.py
+
+# cache / sistema
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.venv/
+venv/
+*.egg-info/
+
+# output occasionali
+*.report.json
+/loot/

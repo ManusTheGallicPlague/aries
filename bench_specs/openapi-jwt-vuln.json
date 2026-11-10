@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture JWT VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
+    }
+  },
+  "security": [{"bearerAuth": []}],
+  "paths": {
+    "/jwt-vuln": {
+      "get": {
+        "summary": "endpoint protetto da Bearer che accetta alg=none, chiave HS debole e ignora exp"
+      }
+    }
+  }
+}

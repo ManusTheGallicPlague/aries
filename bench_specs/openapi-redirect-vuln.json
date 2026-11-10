@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture Redirect VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/redirect-vuln": {
+      "get": {
+        "summary": "redirect che segue il parametro `to` verso un host esterno arbitrario",
+        "parameters": [
+          {"name": "to", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

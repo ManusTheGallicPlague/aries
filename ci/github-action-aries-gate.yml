@@ -1,0 +1,60 @@
+# ESEMPIO di GitHub Action — gate di sicurezza in pipeline con ARIES.
+#
+# NON è attivo: sta in `ci/`, non in `.github/workflows/`, così GitHub non lo
+# esegue su questo repo (è lo strumento, non il bersaglio). Per usarlo copialo
+# in `.github/workflows/` del progetto DA TESTARE e adatta i due passi marcati.
+#
+# Come funziona il gate: `aries scan ... --fail-on <sev>` esce con codice 1 se
+# trova almeno un finding alla severità indicata o più grave (crit ⊆ high ⊆ med
+# ⊆ low). GitHub fa fallire il job su exit ≠ 0 → la pipeline si ferma. Senza
+# --fail-on lo scan non esce mai con errore (resta un report informativo).
+#
+# Confine: ARIES agisce solo sugli host in `config.py` (ALLOWLIST). In CI il
+# bersaglio è l'app avviata NELLA stessa run (localhost), mai un host esterno.
+
+name: aries-security-gate
+on: [push, pull_request]
+
+jobs:
+  security-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del progetto da testare
+        uses: actions/checkout@v4
+
+      - name: Checkout di ARIES
+        uses: actions/checkout@v4
+        with:
+          repository: ManusTheGallicPlague/aries
+          path: aries
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Smoke test deterministico: il benchmark a due facce di ARIES gira
+      # interamente sul fixture locale (nessun host esterno). Se questo rompe,
+      # il tool stesso è rotto → inutile fidarsi del gate.
+      - name: ARIES self-test (bench)
+        run: python3 aries/aries.py bench
+
+      # ADATTA QUESTO: avvia la TUA app su localhost (deve stare in ALLOWLIST).
+      - name: Avvia l'app da testare
+        run: |
+          # es.: ./run-app.sh & ; ./wait-for-it.sh 127.0.0.1:8080
+          echo "avvia qui l'app sotto test su 127.0.0.1"
+
+      # Il gate vero e proprio: fallisce la pipeline su finding >= high.
+      # Scegli la soglia col rischio che accetti: crit | high | med | low.
+      - name: ARIES scan + gate
+        run: |
+          python3 aries/aries.py scan http://127.0.0.1:8080/ \
+            --active --fail-on high --report referto.html
+        # exit 1 → GitHub segna il job come fallito e blocca il merge.
+
+      - name: Pubblica il referto (anche se il gate fallisce)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aries-referto
+          path: referto.html

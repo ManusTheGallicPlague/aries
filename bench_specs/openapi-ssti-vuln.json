@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture SSTI VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/ssti-vuln": {
+      "get": {
+        "summary": "saluto che passa l'input per il motore di template → {{...}} valutato",
+        "parameters": [
+          {"name": "q", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

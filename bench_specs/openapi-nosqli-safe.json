@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture NoSQLi SICURO", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/nosqli-safe": {
+      "post": {
+        "summary": "login che coercisce i campi a stringa → operatori trattati come dato",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

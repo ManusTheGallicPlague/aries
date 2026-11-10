@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture COMPOSE VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "components": {
+    "schemas": {
+      "Credentials": {
+        "type": "object",
+        "properties": {"username": {"type": "string"}}
+      }
+    }
+  },
+  "paths": {
+    "/auth-norate": {
+      "post": {
+        "summary": "login SENZA throttling, corpo composto via allOf ($ref base con username + membro inline con password)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {"$ref": "#/components/schemas/Credentials"},
+                  {"type": "object", "properties": {"password": {"type": "string"}}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

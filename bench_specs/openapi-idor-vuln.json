@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture IDOR VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {"type": "http", "scheme": "bearer"}
+    }
+  },
+  "security": [{"bearerAuth": []}],
+  "paths": {
+    "/basket-vuln/{id}": {
+      "get": {
+        "summary": "legge il basket per id dal path, SENZA controllo di proprietà",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

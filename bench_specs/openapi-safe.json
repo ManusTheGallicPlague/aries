@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture SICURO", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/xss-safe": {
+      "get": {
+        "summary": "ricerca con output encoding corretto",
+        "parameters": [
+          {"name": "q", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    },
+    "/login-safe": {
+      "post": {
+        "summary": "login con query parametrizzata",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

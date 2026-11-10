@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture IDOR SICURO", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {"type": "http", "scheme": "bearer"}
+    }
+  },
+  "security": [{"bearerAuth": []}],
+  "paths": {
+    "/basket-safe/{id}": {
+      "get": {
+        "summary": "legge il basket per id dal path, CON controllo di proprietà",
+        "parameters": [
+          {"name": "id", "in": "path", "required": true, "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

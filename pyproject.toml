@@ -1,0 +1,46 @@
+# Impacchettamento di ARIES — entry-point console `aries`.
+#
+# ARIES ha un layout "flat" (moduli top-level, non un package): aries.py e i
+# lane_*.py risolvono i loro dati (wordlists/, bench_specs/) relativamente al
+# proprio __file__. Per questo l'installazione supportata è EDITABILE:
+#
+#     pip install -e .
+#
+# così i moduli restano nel repo, __file__ punta qui e i dati si trovano. Dopo
+# l'install il comando è `aries ...` invece di `python3 ~/aries/aries.py ...`.
+# (Un install NON editabile copierebbe i .py in site-packages senza i dati →
+# wordlist/spec mancanti: fuori scope, dichiarato onestamente nel README.)
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aries-sectest"
+version = "0.1.0"
+description = "ARIES — local, deterministic, honest security testing (facts come from code, with the evidence attached)"
+readme = "README.md"
+requires-python = ">=3.9"   # validato: bench verde su 3.9/3.11/3.12/3.13
+# Nucleo: SOLO stdlib Python, nessuna dipendenza di runtime (dottrina ARIES).
+dependencies = []
+
+[project.optional-dependencies]
+# Extra OPZIONALI: il nucleo e tutte le lane in puro Python funzionano senza.
+yaml = ["pyyaml"]        # `openapi` su spec in formato YAML (gli spec JSON non servono nulla)
+browser = ["playwright"] # lane `dom-xss` (poi: `playwright install chromium`)
+
+[project.scripts]
+aries = "aries:main"
+
+[tool.setuptools]
+# Layout flat: i moduli sono top-level, non un package. Vanno elencati così
+# che setuptools non tenti l'auto-discovery (che fallisce coi moduli multipli).
+py-modules = [
+    "aries", "core", "config", "findings_db", "interpret", "report", "bench_vuln",
+    "lane_attack", "lane_auth", "lane_check", "lane_cors", "lane_csrf",
+    "lane_discover", "lane_dom_xss", "lane_fuzz", "lane_idor", "lane_jwt",
+    "lane_massassign", "lane_nosqli", "lane_nuclei", "lane_openapi", "lane_race",
+    "lane_redirect", "lane_secrets", "lane_semgrep", "lane_ssrf", "lane_ssti",
+    "lane_storedxss", "lane_traversal", "lane_tls", "lane_graphql", "lane_trivy",
+    "lane_xss",
+]

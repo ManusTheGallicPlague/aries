@@ -1,0 +1,15 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture CRLF VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/crlf-vuln": {
+      "get": {
+        "summary": "redirect che scrive il parametro `to` GREZZO nell'header Location (CR-LF non neutralizzato)",
+        "parameters": [
+          {"name": "to", "in": "query", "schema": {"type": "string"}}
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "Fixture AUTH VULNERABILE", "version": "1.0"},
+  "servers": [{"url": "http://127.0.0.1:8099"}],
+  "paths": {
+    "/auth-norate": {
+      "post": {
+        "summary": "login SENZA throttling: i tentativi falliti non vengono limitati",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
